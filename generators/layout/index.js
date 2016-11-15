@@ -316,7 +316,7 @@ module.exports = require('yeoman-generator').Base.extend({
 
 		var componentName = 'layout-'+layoutName+'.jade';
 		
-		var content = 	'extends ../templates/portal\n\nblock head\n	block header\n\nblock content\n	div(id="layout-'+layoutName+'",class="layout",role="main")\n';
+		var content = 	'extends /theme/templates/portal\n\nblock head\n	block header\n\nblock content\n	div(id="layout-'+layoutName+'",class="layout",role="main")\n';
 		
 		var index=0;
 		
