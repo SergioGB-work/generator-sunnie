@@ -1,0 +1,21 @@
+{
+	"site": [
+		{
+			"name": "<%= siteName %>",
+			"url": "<%= siteUrl %>"
+		}
+	],
+	"pages": [
+		{
+			"name": "Home",
+			"url": "/",
+			"src": "/home.html",
+			"childs": []
+		}
+	]
+}
+
+
+
+
+

@@ -6,7 +6,15 @@ module.exports = require('yeoman-generator').Base.extend({
 		name    : 'site_name',
 		message : 'Your site name(witout component-)',
 		default : this.appname // Default to current folder name
-    },{
+    },
+	{
+		type    : 'input',
+		name    : 'site_url',
+		message : 'Your site url(witout /)',
+		default : this.appname // Default to current folder name
+    },	
+	
+	{
 		
 		type    : 'list',
 		name    : 'theme',
@@ -33,6 +41,7 @@ module.exports = require('yeoman-generator').Base.extend({
   'writing' : function () {
 
 		var siteName = this.props.site_name.trim().toLowerCase();
+		var siteUrl = this.props.site_url.trim().toLowerCase();
 		var theme = this.props.theme;
 			
 		this.fs.copy(
@@ -44,7 +53,13 @@ module.exports = require('yeoman-generator').Base.extend({
 		  this.templatePath('build.json'),
 		  this.destinationPath('',siteName+'/build.json'),
 		  { theme: theme }
-		);		
+		);	
+
+		this.fs.copyTpl(
+		  this.templatePath('sitemap.json'),
+		  this.destinationPath('',siteName+'/sitemap.json'),
+		  { siteName: siteName, siteUrl: siteUrl}
+		);			
 
 	}
 });
