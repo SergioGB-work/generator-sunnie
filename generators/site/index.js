@@ -4,7 +4,7 @@ module.exports = require('yeoman-generator').Base.extend({
     return this.prompt([{
 		type    : 'input',
 		name    : 'site_name',
-		message : 'Your site name(witout component-)',
+		message : 'Your site name',
 		default : this.appname // Default to current folder name
     },
 	{
@@ -41,7 +41,12 @@ module.exports = require('yeoman-generator').Base.extend({
   'writing' : function () {
 
 		var siteName = this.props.site_name.trim().toLowerCase();
-		var siteUrl = this.props.site_url.trim().toLowerCase();
+		var siteUrl = this.props.site_url.trim().toLowerCase().replace(" ","-").replace(".","-").replace("/","");
+		
+		if(siteUrl[0]!= '/'){
+			siteUrl= '/' + siteUrl;
+		}
+		
 		var theme = this.props.theme;
 			
 		this.fs.copy(

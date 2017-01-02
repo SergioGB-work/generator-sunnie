@@ -201,9 +201,28 @@ module.exports = require('yeoman-generator').Base.extend({
 	writing : function () {
 		
 		/************* CREATING PAGE ***********/	
-		var pageName = this.props.page_name;
-		var pageSrc = this.props.src || pageName + '.jade';
-		var url = this.props.url;
+		var pageName = this.props.page_name.trim();
+		var pageSrc = this.props.src.trim().replace(" ","-").replace(".","-") || pageName.trim().replace(" ","-");
+		
+		if(pageSrc[0] != "/"){
+			pageSrc = "/" + pageSrc
+		}
+		else{
+			pageSrc = "/" + pageSrc
+		}
+		
+		var url = this.props.url.toLowerCase().trim().replace(" ","-") || pageSrc;
+		
+		if(url[0]!='/'){
+			url = "/" + url;
+		}
+		if(url[url.length - 1]!="/"){
+			url = url + "/ "
+		}
+		else{
+			url = url + " "
+		}		
+		
 		var metatitle = this.props.metatitle;
 		var metakeywords = this.props.metakeywords;
 		var metadescription = this.props.metadescription;
@@ -246,7 +265,7 @@ module.exports = require('yeoman-generator').Base.extend({
 			}
 			
 		}
-		fs.writeFile(pageName+'.jade',
+		fs.writeFile(pageSrc+'.jade',
 			 content
 		);
 
@@ -261,8 +280,6 @@ module.exports = require('yeoman-generator').Base.extend({
 		siteMap.pages = newSitemap;	
 		
 		siteMap = JSON.stringify(siteMap, null, '\t');
-		
-		this.log(siteMap);
 		
 		fs.writeFile('./sitemap.json',
 			siteMap
