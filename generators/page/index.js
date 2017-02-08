@@ -2,6 +2,7 @@ var fs=require('fs');
 var path = [];
 var lastLevel = [];
 var positionToAdd=0;
+var chalk = require('chalk');
 
 module.exports = require('yeoman-generator').Base.extend({
 	
@@ -202,14 +203,9 @@ module.exports = require('yeoman-generator').Base.extend({
 		
 		/************* CREATING PAGE ***********/	
 		var pageName = this.props.page_name.trim();
-		var pageSrc = this.props.src.trim().replace(" ","-").replace(".","-") || pageName.trim().replace(" ","-");
+		var pageSrc = this.props.src.trim().replace(" ","-").replace(".","-").replace("/","") || pageName.trim().replace(" ","-").replace("/","");
 		
-		if(pageSrc[0] != "/"){
-			pageSrc = "/" + pageSrc
-		}
-		else{
-			pageSrc = "/" + pageSrc
-		}
+		
 		
 		var url = this.props.url.toLowerCase().trim().replace(" ","-") || pageSrc;
 		
@@ -265,8 +261,11 @@ module.exports = require('yeoman-generator').Base.extend({
 			}
 			
 		}
+		var c = this;
 		fs.writeFile(pageSrc+'.jade',
-			 content
+			 content,function(){
+				c.log(chalk.bold.green('create ') + pageSrc+'.jade' );
+			}
 		);
 
 		/****************** ADDING TO SITEMAP *****************/
