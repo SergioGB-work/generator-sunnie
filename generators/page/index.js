@@ -202,14 +202,7 @@ module.exports = require('yeoman-generator').Base.extend({
 		
 		/************* CREATING PAGE ***********/	
 		var pageName = this.props.page_name.trim();
-		var pageSrc = this.props.src.trim().replace(" ","-").replace(".","-") || pageName.trim().replace(" ","-");
-		
-		if(pageSrc[0] != "/"){
-			pageSrc = "/" + pageSrc
-		}
-		else{
-			pageSrc = "/" + pageSrc
-		}
+		var pageSrc = this.props.src.trim().replace(" ","-").replace(".","-").replace("/","") || pageName.trim().replace(" ","-");
 		
 		var url = this.props.url.toLowerCase().trim().replace(" ","-") || pageSrc;
 		
@@ -217,10 +210,10 @@ module.exports = require('yeoman-generator').Base.extend({
 			url = "/" + url;
 		}
 		if(url[url.length - 1]!="/"){
-			url = url + "/ "
+			url = url + "/"
 		}
 		else{
-			url = url + " "
+			url = url + ""
 		}		
 		
 		var metatitle = this.props.metatitle;
@@ -271,7 +264,7 @@ module.exports = require('yeoman-generator').Base.extend({
 
 		/****************** ADDING TO SITEMAP *****************/
 		var siteMap = this.readFileAsString('./sitemap.json');
-		var newPage = {"name": pageName,"url": url,"src": pageSrc+'.html',"childs": []};
+		var newPage = {"name": pageName,"url": url,"src": "/"+pageSrc+'.html',"childs": []};
 		
 		var pages = JSON.parse(siteMap).pages;
 		

@@ -66,5 +66,15 @@ module.exports = require('yeoman-generator').Base.extend({
 		  { siteName: siteName, siteUrl: siteUrl}
 		);			
 
+		this.fs.copyTpl(
+		  this.templatePath('locale/en/default.json'),
+		  this.destinationPath('',siteName+'/locale/en/default.json')
+		);
+
+		this.fs.copyTpl(
+		  this.templatePath('locale/es/default.json'),
+		  this.destinationPath('',siteName+'/locale/es/default.json')
+		);		
+		
 	}
 });
