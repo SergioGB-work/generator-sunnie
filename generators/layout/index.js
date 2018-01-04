@@ -1,18 +1,23 @@
-var chalk = require('chalk');
-var fs=require('fs');
 var rows = [];  
 var columnDistribution =[];
 var layoutName;
 var picture='';	
 var done;
+var Generator = require('yeoman-generator');
+var chalk = require('chalk');
+var memFs = require('mem-fs');
+var editor = require('mem-fs-editor');
+var store = memFs.create();
+//var fs = editor.create(store);
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+var wiring = require('html-wiring');
 
 
 
-module.exports = require('yeoman-generator').Base.extend({
-
+module.exports = Generator.extend({
 			  askLayoutName: function () {
 				done = this.async();
-				
 				var layoutNameQuestion = {
 					type    : 'input',
 					name    : 'layout_name',
@@ -314,9 +319,9 @@ module.exports = require('yeoman-generator').Base.extend({
 	
 	wt: function () {
 
-		var componentName = 'layout-'+layoutName+'.jade';
+		var componentName = 'layout-'+layoutName+'.pug';
 		
-		var content = 	'extends /theme/templates/portal\n\nblock head\n	block header\n\nblock content\n	div(id="layout-'+layoutName+'",class="layout",role="main")\n';
+		var content = 	'extends ../templates/portal\n\nblock head\n	block header\n\nblock content\n	div(id="layout-'+layoutName+'",class="layout",role="main")\n';
 		
 		var index=0;
 		
@@ -378,9 +383,8 @@ module.exports = require('yeoman-generator').Base.extend({
 		}
 			
 	}  
-	
 	var c = this;
-	fs.writeFile(componentName,
+	fs.writeFile('./'+componentName,
 		 content,function(){
 			 c.log(chalk.bold.green('create ') + componentName);
 		 }

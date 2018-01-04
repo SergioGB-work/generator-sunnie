@@ -1,5 +1,14 @@
-module.exports = require('yeoman-generator').Base.extend({
-  'prompting' : function () {
+var Generator = require('yeoman-generator');
+var chalk = require('chalk');
+var memFs = require('mem-fs');
+var editor = require('mem-fs-editor');
+var store = memFs.create();
+var fs = editor.create(store);
+var mkdirp = require('mkdirp');
+var wiring = require('html-wiring');
+
+module.exports = Generator.extend({
+  prompting : function () {
 
     return this.prompt([{
       type    : 'input',
@@ -14,17 +23,34 @@ module.exports = require('yeoman-generator').Base.extend({
 
   },
 
-  'writing' : function () {
+  writing : function () {
 
 		var componentName = 'component-'+this.props.component_name;
+		mkdirp(componentName);
+		mkdirp(componentName+'/templates');
 		
-		this.mkdir(componentName);
-			
+		file = wiring.readFileAsString('../templates/include_components.pug');
+
+		this.fs.append('../templates/include_components.pug',
+			 '\ninclude ../components/'+componentName+'/view'
+		);
+
+
 		this.fs.copyTpl(
 		  this.templatePath(''),
 		  this.destinationPath('',componentName+'/'),
 		  { component_name: componentName }
 		);
 
+		this.fs.write(componentName+'/locale/es/'+this.props.component_name+'.json',
+			 '{}',function(){
+				 this.log(chalk.bold.green('create ') + this.props.component_name);
+			 }
+		);
+		this.fs.write(componentName+'/locale/en/'+this.props.component_name+'.json',
+			 '{}',function(){
+				 this.log(chalk.bold.green('create ') + this.props.component_name);
+			 }
+		);			
 	}
 });
