@@ -1,7 +1,8 @@
+var Generator = require('yeoman-generator');
 var mkdirp = require('mkdirp');
 var chalk = require('chalk');
 
-module.exports = require('yeoman-generator').Base.extend({
+module.exports = Generator.extend({
   'prompting' : function () {
 
     return;
@@ -24,6 +25,9 @@ module.exports = require('yeoman-generator').Base.extend({
 		
 		mkdirp('plugins/components');
 		this.log(chalk.bold.green('create') + ' /plugins/components');
+
+		mkdirp('plugins/fragments');
+		this.log(chalk.bold.green('create') + ' /plugins/fragments');		
 		
 		mkdirp('plugins/sites');	
 		this.log(chalk.bold.green('create') + ' /plugins/sites')

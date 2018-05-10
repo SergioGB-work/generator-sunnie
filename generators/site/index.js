@@ -1,4 +1,6 @@
-module.exports = require('yeoman-generator').Base.extend({
+var Generator = require('yeoman-generator');
+
+module.exports = Generator.extend({
   'prompting' : function () {
 
     return this.prompt([{
@@ -50,8 +52,8 @@ module.exports = require('yeoman-generator').Base.extend({
 		var theme = this.props.theme;
 			
 		this.fs.copy(
-			this.templatePath('home.jade'),
-			this.destinationPath('',siteName+'/home.jade')
+			this.templatePath('home.pug'),
+			this.destinationPath('',siteName+'/home.pug')
 		);
 		
 		this.fs.copyTpl(
@@ -66,15 +68,5 @@ module.exports = require('yeoman-generator').Base.extend({
 		  { siteName: siteName, siteUrl: siteUrl}
 		);			
 
-		this.fs.copyTpl(
-		  this.templatePath('locale/en/default.json'),
-		  this.destinationPath('',siteName+'/locale/en/default.json')
-		);
-
-		this.fs.copyTpl(
-		  this.templatePath('locale/es/default.json'),
-		  this.destinationPath('',siteName+'/locale/es/default.json')
-		);		
-		
 	}
 });

@@ -3,8 +3,9 @@ var path = [];
 var lastLevel = [];
 var positionToAdd=0;
 var chalk = require('chalk');
+var Generator = require('yeoman-generator');
 
-module.exports = require('yeoman-generator').Base.extend({
+module.exports = Generator.extend({
 	
 	initializing: function(){
 		var dirLayoutsBundles = fs.readdirSync('../../../bundles/src/layouts/');
@@ -26,9 +27,8 @@ module.exports = require('yeoman-generator').Base.extend({
 		  
 		}	  
 
-		var siteMap = this.readFileAsString('./sitemap.json')
+		var siteMap = this.fs.readJSON('./sitemap.json')
 		
-		siteMap = JSON.parse(siteMap);
 		this.siteMap = [];
 		
 		this.siteMap.push({name:'Add to this level',value:0});
@@ -55,7 +55,7 @@ module.exports = require('yeoman-generator').Base.extend({
 		var pageSrcQuestion = {
 		  type    : 'input',
 		  name    : 'src',
-		  message : 'Your page file(example: home(without .jade) )'
+		  message : 'Your page file(example: home(without .pug) )'
 		};		
 		var pageUrlQuestion = {
 		  type    : 'input',
@@ -120,8 +120,7 @@ module.exports = require('yeoman-generator').Base.extend({
 	nextLevel : function(path){
 		var pages = [];
 		
-		var siteMap = this.readFileAsString('./sitemap.json');
-		siteMap = JSON.parse(siteMap);
+		var siteMap = this.fs.readJSON('./sitemap.json');
 		var aux = siteMap.pages;
 		
 		for(var i in path){
@@ -212,10 +211,10 @@ module.exports = require('yeoman-generator').Base.extend({
 			url = "/" + url;
 		}
 		if(url[url.length - 1]!="/"){
-			url = url + "/"
+			url = url + "/ "
 		}
 		else{
-			url = url + ""
+			url = url + " "
 		}		
 		
 		var metatitle = this.props.metatitle;
@@ -231,17 +230,17 @@ module.exports = require('yeoman-generator').Base.extend({
 		content += '	meta(name="keywords",content="'+metakeywords+'")\n';
 		content += '	meta(name="description",content="'+metadescription+'")\n\n';
 			
-		if(this.fs.exists("../../../bundles/src/layouts/" + layout + '.jade')){
-			pathLayout = "../../../bundles/src/layouts/" + layout + '.jade';
+		if(this.fs.exists("../../../bundles/src/layouts/" + layout + '.pug')){
+			pathLayout = "../../../bundles/src/layouts/" + layout + '.pug';
 		}
-		else if(this.fs.exists("../../layouts/" + layout + '.jade')){
-			pathLayout = "../../layouts/" + layout + '.jade';
+		else if(this.fs.exists("../../layouts/" + layout + '.pug')){
+			pathLayout = "../../layouts/" + layout + '.pug';
 		}
 		else{
 			this.log("Error, Layout not found");
 		}
 		
-		file = this.readFileAsString(pathLayout);
+		file = this.fs.read(pathLayout);
 		
 		var blocks = [];
 		
@@ -261,20 +260,20 @@ module.exports = require('yeoman-generator').Base.extend({
 			
 		}
 		var c = this;
-		fs.writeFile(pageSrc+'.jade',
+		fs.writeFile(pageSrc+'.pug',
 			 content,function(){
-				c.log(chalk.bold.green('create ') + pageSrc+'.jade' );
+				c.log(chalk.bold.green('create ') + pageSrc+'.pug' );
 			}
 		);
 
 		/****************** ADDING TO SITEMAP *****************/
-		var siteMap = this.readFileAsString('./sitemap.json');
-		var newPage = {"name": pageName,"url": url,"src": "/"+pageSrc+'.html',"childs": []};
+		var siteMap = this.fs.readJSON('./sitemap.json');
+		var newPage = {"name": pageName,"url": url,"src": '/' + pageSrc+'.html',"childs": []};
 		
-		var pages = JSON.parse(siteMap).pages;
+		var pages = siteMap.pages;
 		
 		newSitemap = pushJson(pages,newPage,path,path.length,0,positionToAdd);
-		siteMap = JSON.parse(siteMap);
+
 		siteMap.pages = newSitemap;	
 		
 		siteMap = JSON.stringify(siteMap, null, '\t');

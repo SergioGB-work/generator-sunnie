@@ -1,4 +1,7 @@
-module.exports = require('yeoman-generator').Base.extend({
+var Generator = require('yeoman-generator');
+var mkdirp = require('mkdirp');
+
+module.exports = Generator.extend({
   'prompting' : function () {
 
     return this.prompt([{
@@ -32,11 +35,11 @@ module.exports = require('yeoman-generator').Base.extend({
 		var themeName = this.props.theme_name.trim().toLowerCase()+'-theme';
 		var themeParent = this.props.theme;
 			
-		this.mkdir(themeName);	
-		this.mkdir(themeName + '/templates');	
-		this.mkdir(themeName + '/css');	
-		this.mkdir(themeName + '/js');	
-		this.mkdir(themeName + '/images');	
+		mkdirp(themeName);	
+		mkdirp(themeName + '/templates');	
+		mkdirp(themeName + '/css');	
+		mkdirp(themeName + '/js');	
+		mkdirp(themeName + '/images');	
 			
 		this.fs.copy(
 			this.templatePath('custom.scss'),

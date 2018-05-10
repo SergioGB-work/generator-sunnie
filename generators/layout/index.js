@@ -5,10 +5,10 @@ var columnDistribution =[];
 var layoutName;
 var picture='';	
 var done;
+var Generator = require('yeoman-generator');
 
 
-
-module.exports = require('yeoman-generator').Base.extend({
+module.exports = Generator.extend({
 
 			  askLayoutName: function () {
 				done = this.async();
@@ -314,7 +314,7 @@ module.exports = require('yeoman-generator').Base.extend({
 	
 	wt: function () {
 
-		var componentName = 'layout-'+layoutName+'.jade';
+		var componentName = 'layout-'+layoutName+'.pug';
 		
 		var content = 	'extends /theme/templates/portal\n\nblock head\n	block header\n\nblock content\n	div(id="layout-'+layoutName+'",class="layout",role="main")\n';
 		
