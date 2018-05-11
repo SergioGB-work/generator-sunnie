@@ -1,6 +1,31 @@
 var Generator = require('yeoman-generator');
+var fs=require('fs');
 
 module.exports = Generator.extend({
+
+	'initializing': function(){
+		var dirThemesBundles = fs.readdirSync('../../bundles/src/themes/');
+		var dirThemesPlugins = fs.readdirSync('../themes/');
+
+		this.choicesTheme=[];
+		
+		for(var i in dirThemesBundles){
+			var themeName = dirThemesBundles[i].split('.')
+			var theme = {name:themeName[0], value: themeName[0]}
+			this.choicesTheme.push(theme); 
+		  
+		}
+
+		for(var i in dirThemesPlugins){
+			var themeName = dirThemesPlugins[i].split('.')
+			var theme = {name:themeName[0], value: themeName[0]}
+			this.choicesTheme.push(theme); 
+		  
+		}
+		
+		return this.choicesTheme;
+	},
+
   'prompting' : function () {
 
     return this.prompt([{
@@ -21,15 +46,7 @@ module.exports = Generator.extend({
 		type    : 'list',
 		name    : 'theme',
 		message : 'What theme do you want to applied to your Site?',
-		choices: [{
-				name:'sun-theme', 
-				value: 'sun-theme',
-				checked: true
-			},{
-				name:'Later', 
-				value: 'Later'		
-			}
-		]		
+		choices: this.choicesTheme		
 	}
 	
 	
@@ -66,7 +83,18 @@ module.exports = Generator.extend({
 		  this.templatePath('sitemap.json'),
 		  this.destinationPath('',siteName+'/sitemap.json'),
 		  { siteName: siteName, siteUrl: siteUrl}
-		);			
+		);
+
+		this.fs.copyTpl(
+		  this.templatePath('locale/es/lang.json'),
+		  this.destinationPath('',siteName+'/locale/es/'+siteName+'.json'),
+		  { theme: theme }
+		);
+		this.fs.copyTpl(
+		  this.templatePath('locale/en/lang.json'),
+		  this.destinationPath('',siteName+'/locale/en/'+siteName+'.json'),
+		  { theme: theme }
+		);					
 
 	}
 });
