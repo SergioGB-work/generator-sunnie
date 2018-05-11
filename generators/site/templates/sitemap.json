@@ -1,10 +1,8 @@
 {
-	"site": [
-		{
-			"name": "<%= siteName %>",
-			"url": "<%= siteUrl %>"
-		}
-	],
+	"site":{
+		"name": "<%= siteName %>",
+		"url": "<%= siteUrl %>"
+	},
 	"pages": [
 		{
 			"name": "Home",
