@@ -7,7 +7,7 @@ module.exports = Generator.extend({
     return this.prompt([{
 		type    : 'input',
 		name    : 'theme_name',
-		message : 'Your theme name(witout theme-)',
+		message : 'Your theme name(without theme-)',
 		default : this.appname // Default to current folder name
     },{
 		

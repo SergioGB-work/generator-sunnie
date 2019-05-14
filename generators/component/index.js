@@ -16,7 +16,6 @@ module.exports = Generator.extend({
       default : this.appname // Default to current folder name
     }]).then(function (answers) {
 	  this.props = answers
-      this.log('app name', answers.name);
     }.bind(this));
 
 
