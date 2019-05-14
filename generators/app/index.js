@@ -1,4 +1,9 @@
-module.exports = require('yeoman-generator').Base.extend({
+'use strict';
+var Generator = require('yeoman-generator');
+var chalk = require('chalk');
+var yosay = require('yosay');
+
+module.exports = Generator.extend({
   'initializing' : function () {
     this.composeWith('base-component:component');
     this.composeWith('base-component:layout');
@@ -6,5 +11,5 @@ module.exports = require('yeoman-generator').Base.extend({
     this.composeWith('base-component:theme');
     this.composeWith('base-component:page');
     this.composeWith('base-component:init');
-  }
+  } 
 });

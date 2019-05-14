@@ -5,7 +5,6 @@ var editor = require('mem-fs-editor');
 var store = memFs.create();
 var fs = editor.create(store);
 var mkdirp = require('mkdirp');
-var wiring = require('html-wiring');
 
 module.exports = Generator.extend({
   'prompting' : function () {

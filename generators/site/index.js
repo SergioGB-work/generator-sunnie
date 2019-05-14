@@ -67,11 +67,6 @@ module.exports = Generator.extend({
 		}
 		
 		var theme = this.props.theme;
-			
-		this.fs.copy(
-			this.templatePath('home.pug'),
-			this.destinationPath('',siteName+'/home.pug')
-		);
 		
 		this.fs.copyTpl(
 		  this.templatePath('build.json'),

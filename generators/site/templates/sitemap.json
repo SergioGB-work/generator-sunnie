@@ -5,11 +5,31 @@
 	},
 	"pages": [
 		{
+			"id":"home",
 			"name": "Home",
 			"url": "/",
 			"src": "/home.html",
-			"childs": []
-		}
+			"attributes":{
+				"title":"SunnieJS3",
+				"description":"Lorem ipsum4",
+				"keywords":"SunnieJS3"
+			},
+			"layout":{
+				"name":"layout-12-fluid",
+				"content":{
+					"content_upper":[
+						{
+                            "id": "1",
+                            "name": "component-sample",
+                            "content": "Lorem ipsum dolor sit amet",
+                            "showTitle": "false",
+                            "full": "true"
+                        }
+					]
+				}
+			},
+            "childs": []
+		}	
 	]
 }
 

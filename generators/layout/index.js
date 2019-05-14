@@ -316,7 +316,18 @@ module.exports = Generator.extend({
 
 		var componentName = 'layout-'+layoutName+'.pug';
 		
-		var content = 	'extends /theme/templates/portal\n\nblock head\n	block header\n\nblock content\n	div(id="layout-'+layoutName+'",class="layout",role="main")\n';
+		var content = 'mixin layout-12-9-3-12(content)\n';
+		var index=0;
+		
+		for (var i in rows){
+			var columns = columnDistribution[i].split('-');
+			for(var column in columns){
+				content += '	- var content_upper = content.column'+index+'\n';
+				index++;
+			}
+		}	
+
+		content += '\n	div(id="layout-'+layoutName+'",class="layout",role="main",data-layout-id="layout-'+layoutName+'")\n';
 		
 		var index=0;
 		
@@ -335,45 +346,44 @@ module.exports = Generator.extend({
 			}
 			
 			content += '			div(class="layout-row row")\n\n';
-			
-			columns = columnDistribution[i].split('-')
-			
+			var columns = columnDistribution[i].split('-');
 			for(var column in columns){
 				switch (columns[column]){
 					case '3':
-						content += '				div(class="column col-md-3 col-xs-12")\n';
+						content += '				div(class="column col-md-3 col-xs-12",data-layout-column="'+index+'")\n';
 						break;
 						
 					case '4':
-						content += '				div(class="column col-md-4 col-xs-12")\n';
+						content += '				div(class="column col-md-4 col-xs-12",data-layout-column="'+index+'")\n';
 						break;
 
 					case '5':
-						content += '				div(class="column col-md-5 col-xs-12")\n';
+						content += '				div(class="column col-md-5 col-xs-12",data-layout-column="'+index+'")\n';
 						break;
 
 					case '6':
-						content += '				div(class="column col-md-6 col-xs-12")\n';
+						content += '				div(class="column col-md-6 col-xs-12",data-layout-column="'+index+'")\n';
 						break;						
 						
 					case '7':
-						content += '				div(class="column col-md-7 col-xs-12")\n';
+						content += '				div(class="column col-md-7 col-xs-12",data-layout-column="'+index+'")\n';
 						break;
 
 					case '8':
-						content += '				div(class="column col-md-8 col-xs-12")\n';
+						content += '				div(class="column col-md-8 col-xs-12",data-layout-column="'+index+'")\n';
 						break;
 
 					case '9':
-						content += '				div(class="column col-md-9 col-xs-12")\n';
+						content += '				div(class="column col-md-9 col-xs-12",data-layout-column="'+index+'")\n';
 						break;	
 						
 					case '12':
-						content += '				div(class="column col-md-12 col-xs-12")\n';
+						content += '				div(class="column col-md-12 col-xs-12",data-layout-column="'+index+'")\n';
 						break;				
 				}
 			
-			content += '					block column'+index+'\n\n'	
+			content += '					each component,index in column'+index+' \n';
+			content += '						+component({"name":component.name || "" , "id":component.id || "","content":component.content || "", "title":component.title || "","showTitle":component.showTitle || "true", "full":component.full || "false","classes":component.classes || "", "index":index})\n\n';
 			index++;
 		}
 			

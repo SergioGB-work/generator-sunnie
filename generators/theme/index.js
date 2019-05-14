@@ -38,7 +38,7 @@ module.exports = Generator.extend({
 		mkdirp(themeName);	
 		mkdirp(themeName + '/templates');	
 		mkdirp(themeName + '/css');	
-		mkdirp(themeName + '/js');	
+		mkdirp(themeName + '/javascript');	
 		mkdirp(themeName + '/images');	
 			
 		this.fs.copy(
